@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TokenX — AI API 聚合平台</title>
+    <meta
+      name="description"
+      content="TokenX：企业级 AI API 聚合，国内访问稳定、高性价比，支持微信与支付宝充值；OpenAI 兼容，注册即送体验额度。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #07080d;
+        --surface: #0f1117;
+        --surface2: #161922;
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #f1f3f7;
+        --muted: #8b93a7;
+        --brand: #5b8cff;
+        --brand2: #7c5cff;
+        --accent: #22d3ee;
+        --cta-text: #ffffff;
+        --radius: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Noto Sans SC", "Inter", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+
+      /* 顶栏：接近常见「Logo + 文案 + 登录/注册」布局 */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(7, 8, 13, 0.82);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 64px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, var(--brand), var(--brand2));
+        box-shadow: 0 10px 28px rgba(91, 140, 255, 0.28);
+        display: grid;
+        place-items: center;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.03em;
+      }
+
+      .brand-sub {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--muted);
+        margin-top: 2px;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .btn-ghost:hover {
+        border-color: rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand2));
+        color: var(--cta-text);
+        box-shadow: 0 12px 32px rgba(91, 140, 255, 0.28);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(91, 140, 255, 0.35);
+      }
+
+      /* Hero：对齐 LAIAI 首页标题结构「— AI API 聚合平台」 */
+      .hero {
+        padding: 72px 0 48px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: -40% 20% auto;
+        height: 70%;
+        background: radial-gradient(
+          ellipse at 50% 0%,
+          rgba(91, 140, 255, 0.22),
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        position: relative;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 22px;
+      }
+
+      .eyebrow-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 14px var(--accent);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(1.85rem, 4.6vw, 2.6rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .title-line {
+        display: block;
+      }
+
+      .title-brand {
+        color: var(--text);
+      }
+
+      .title-dash {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .title-product {
+        background: linear-gradient(90deg, #dbeafe, #c4b5fd, #67e8f9);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-tag {
+        margin: 0 auto 28px;
+        max-width: 520px;
+        font-size: 1.05rem;
+        color: var(--muted);
+      }
+
+      /* 注册页卖点：注册即送体验额度，3分钟完成接入 */
+      .hero-highlight {
+        margin: 0 auto 32px;
+        max-width: 560px;
+        padding: 14px 20px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(91, 140, 255, 0.08), rgba(15, 17, 23, 0.9));
+        color: #d7def0;
+        font-size: 0.98rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+
+      .hero-note {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .hero-note a {
+        color: #a5b4fc;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      .tile {
+        padding: 20px 18px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-align: left;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 6px;
+      }
+
+      .tile span {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      section {
+        padding: 52px 0;
+      }
+
+      section h2 {
+        margin: 0 0 10px;
+        text-align: center;
+        font-size: 1.45rem;
+        font-weight: 700;
+      }
+
+      .section-lead {
+        text-align: center;
+        color: var(--muted);
+        max-width: 560px;
+        margin: 0 auto 36px;
+        font-size: 0.98rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--surface2);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+
+      .cta-panel {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 28px 24px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(165deg, rgba(91, 140, 255, 0.1), var(--surface));
+        text-align: center;
+      }
+
+      .cta-panel p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .section-note {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.82rem;
+        max-width: 640px;
+        margin: -24px auto 28px;
+        line-height: 1.55;
+      }
+
+      .logo-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        max-width: 920px;
+        margin: 0 auto 36px;
+      }
+
+      .logo-strip span {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #b8c0d4;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        letter-spacing: 0.02em;
+      }
+
+      .case-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      .case-card {
+        padding: 22px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: linear-gradient(165deg, rgba(91, 140, 255, 0.06), var(--surface2));
+        text-align: left;
+      }
+
+      .case-card .tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #a5b4fc;
+        margin-bottom: 8px;
+      }
+
+      .case-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.05rem;
+        color: var(--text);
+      }
+
+      .case-card p {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .case-card .org {
+        display: block;
+        margin-top: 12px;
+        font-size: 0.86rem;
+        color: #94a3b8;
+      }
+
+      .faq details {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        background: var(--surface);
+      }
+
+      .faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .faq p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      footer {
+        padding: 36px 0 48px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-align: center;
+      }
+
+      footer a {
+        color: #a5b4fc;
+      }
+
+      code {
+        font-size: 0.85em;
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      @media (max-width: 640px) {
+        .nav-links .btn-ghost:not(.btn-login) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav">
+        <a class="brand" href="#top" id="top">
+          <span class="brand-mark" aria-hidden="true">TX</span>
+          <span>
+            TokenX
+            <span class="brand-sub">AI API 聚合</span>
+          </span>
+        </a>
+        <nav class="nav-links" aria-label="主导航">
+          <a class="btn btn-ghost" href="#features">产品能力</a>
+          <a class="btn btn-ghost" href="#cases">客户案例</a>
+          <a class="btn btn-ghost" href="#pricing">计费说明</a>
+          <a
+            class="btn btn-ghost btn-login"
+             href="https://laiai.ai/register?aff=jZop"
+            rel="noopener noreferrer"
+            target="_blank"
+            >登录</a
+          >
+          <a
+            class="btn btn-primary"
+            href="https://laiai.ai/register?aff=jZop"
+            rel="noopener noreferrer"
+            target="_blank"
+            >注册</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap hero">
+        <div class="hero-inner">
+          <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 企业级 · 国内稳定访问 · 微信/支付宝 · 高性价比</div>
+          <h1>
+            <span class="title-line">
+              <span class="title-brand">TokenX</span>
+              <span class="title-dash"> — </span>
+              <span class="title-product">AI API 聚合平台</span>
+            </span>
+          </h1>
+          <p class="hero-tag">
+            面向企业与团队：<strong style="color: #e2e8f0">企业级稳定可靠</strong>的调用体验，<strong style="color: #e2e8f0">性价比突出</strong>；兼容
+            OpenAI 风格 API，集中管理密钥与用量。<strong style="color: #e2e8f0">国内访问稳定可靠</strong>，控制台支持<strong style="color: #e2e8f0">微信与支付宝</strong>充值/付款，更快把大模型能力接入生产与自动化流程。
+          </p>
+          <p class="hero-highlight">
+            <strong style="color: #eef2ff">注册即送体验额度，约 3 分钟完成接入。</strong>
+          </p>
+          <div class="hero-actions">
+            <a
+              class="btn btn-primary"
+              href="https://laiai.ai/register?aff=jZop"
+              rel="noopener noreferrer"
+              target="_blank"
+              >立即注册</a
+            >
+            <a class="btn btn-ghost" href="#features">了解能力</a>
+          </div>
+
+          <div class="tiles" aria-label="核心亮点">
+            <div class="tile">
+              <strong>企业级稳定可靠</strong>
+              <span>面向生产与规模化调用，强调可用性与可预期性，支撑业务持续运行。</span>
+            </div>
+            <div class="tile">
+              <strong>高性价比</strong>
+              <span>同等能力下成本更可控；按量计费、按需扩缩，把钱花在刀刃上。</span>
+            </div>
+            <div class="tile">
+              <strong>国内稳定访问</strong>
+              <span>线路与节点面向国内用户优化，降低延迟与访问波动，日常调用更省心。</span>
+            </div>
+            <div class="tile">
+              <strong>微信与支付宝</strong>
+              <span>支持微信、支付宝等国内常用方式完成充值/付款，对账与流转更顺畅。</span>
+            </div>
+            <div class="tile">
+              <strong>OpenAI 兼容</strong>
+              <span>常见 SDK 与示例可直接迁移，上手成本低。</span>
+            </div>
+            <div class="tile">
+              <strong>多模型 · 统一控制台</strong>
+              <span>按场景切换模型能力；密钥、用量与账单集中查看，便于协作。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="features">
+        <div class="wrap">
+          <h2>为什么选择 API 聚合</h2>
+          <p class="section-lead">
+            把「多家厂商、多套配置、分散账单」收敛为「一个入口、一套密钥、一份用量视图」；在<strong style="color: #cbd5e1">企业级稳定性</strong>与<strong style="color: #cbd5e1">性价比</strong>之间取得平衡，并兼顾<strong style="color: #cbd5e1">国内可达</strong>与<strong style="color: #cbd5e1">便捷支付</strong>。
+          </p>
+          <div class="grid">
+            <div class="card">
+              <h3>企业级稳定可靠</h3>
+              <p>面向生产环境设计：更关注服务可用、调用链路与排障效率，适合对稳定性有要求的团队与业务系统。</p>
+            </div>
+            <div class="card">
+              <h3>高性价比</h3>
+              <p>按量计费、模型可选；在效果、成本与延迟之间做组合优化，让预算花在真正产生价值的调用上。</p>
+            </div>
+            <div class="card">
+              <h3>国内访问与支付</h3>
+              <p>线路与节点面向国内用户优化，降低访问波动；控制台支持微信、支付宝等常用方式完成充值/付款，上手与续费更顺畅。</p>
+            </div>
+            <div class="card">
+              <h3>快速接入</h3>
+              <p>标准 HTTP API，OpenAI 兼容形态，文档清晰；适合从验证到生产的平滑过渡。</p>
+            </div>
+            <div class="card">
+              <h3>灵活选型</h3>
+              <p>按任务在效果、成本与延迟之间取舍，随时调整模型组合与路由策略。</p>
+            </div>
+            <div class="card">
+              <h3>团队协作与可观测</h3>
+              <p>减少散落子账号；统一调用路径与用量视图，便于权限、审计、监控与容量规划。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cases">
+        <div class="wrap">
+          <h2>客户案例</h2>
+          <p class="section-lead">
+            大型企业与机构团队，将大模型能力接入核心业务、内部系统与研发流程。以下为<strong style="color: #cbd5e1">行业级典型场景</strong>，便于对照自身需求；不代表特定公司已签约或为官方背书。
+          </p>
+
+          <div class="logo-strip" aria-label="覆盖的企业与机构类型">
+            <span>互联网大厂</span>
+            <span>上市科技公司</span>
+            <span>国有大型银行</span>
+            <span>证券与保险</span>
+            <span>央企制造</span>
+            <span>世界500强</span>
+            <span>大型政企</span>
+            <span>双一流高校</span>
+          </div>
+
+          <div class="case-grid">
+            <article class="case-card">
+              <span class="tag">互联网 · 头部平台</span>
+              <h3>某头部互联网集团 · 产品中台</h3>
+              <p>
+                数万员工级组织，将对话与推理能力接入客服、运营与内部知识库；研发线用于代码辅助与文档生成，统一走聚合 API 以降低多供应商对接成本。
+              </p>
+              <span class="org">典型规模：集团级 · 多事业部协同</span>
+            </article>
+            <article class="case-card">
+              <span class="tag">金融 · 银行保险</span>
+              <h3>某国有大型商业银行 · 科技子公司</h3>
+              <p>
+                面向合规与风控场景，构建内部问答与文档抽取流水线；要求调用链路可审计、可观测，并按业务峰谷弹性扩缩，控制总体推理成本。
+              </p>
+              <span class="org">典型规模：全国性 · 一级分行与子公司</span>
+            </article>
+            <article class="case-card">
+              <span class="tag">制造 · 能源央企</span>
+              <h3>某央企高端装备集团 · 智能制造</h3>
+              <p>
+                将设备手册、运维规程与故障案例沉淀为可检索知识，现场工程师通过对话快速定位方案；与现有工单、MES 系统旁路集成，减少停机损失。
+              </p>
+              <span class="org">典型规模：集团级 · 多基地多工厂</span>
+            </article>
+            <article class="case-card">
+              <span class="tag">政企 · 教育科研</span>
+              <h3>某双一流高校 · 信息中心</h3>
+              <p>
+                为科研团队提供文献辅助与多语言摘要能力，行政部门用于公文草拟与格式校对；强调校内数据边界与账号体系，按课题组分摊用量。
+              </p>
+              <span class="org">典型规模：部属高校 · 跨学院项目制</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="wrap">
+          <h2>计费与使用</h2>
+          <p class="section-lead">
+            按调用量计费（如 token / 次数），整体<strong style="color: #cbd5e1">性价比突出</strong>；具体模型单价以控制台实时展示为准。充值环节通常支持<strong style="color: #cbd5e1">微信与支付宝</strong>等国内常用方式，建议先小额试用，再按业务流量扩容。
+          </p>
+          <div class="cta-panel">
+            <p>
+              注册后可在控制台查看<strong>模型列表</strong>与<strong>实时价格</strong>，按需充值（如微信、支付宝），创建 API Key 即可开始调用。
+            </p>
+            <a
+              class="btn btn-primary"
+              href="https://laiai.ai/register?aff=jZop"
+              rel="noopener noreferrer"
+              target="_blank"
+              >去注册并开始使用</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="faq">
+        <div class="wrap">
+          <h2>常见问题</h2>
+          <details>
+            <summary>接口形态是什么？</summary>
+            <p>多数聚合服务提供与 OpenAI 相近的 REST API，便于迁移现有代码；路径、字段与鉴权方式请以官方文档为准。</p>
+          </details>
+          <details>
+            <summary>数据与隐私要注意什么？</summary>
+            <p>涉及敏感数据时请阅读服务条款与数据处理说明，并在应用层做好脱敏、权限与留存策略。</p>
+          </details>
+          <details>
+            <summary>如何估算成本？</summary>
+            <p>按典型请求的 token 规模与峰值 QPS 做抽样测算，并结合控制台用量报表持续优化与设置预算。</p>
+          </details>
+          <details>
+            <summary>支持哪些支付方式？微信与支付宝是否可用？</summary>
+            <p>
+              以合作平台控制台展示为准；面向国内用户常见需求，通常支持<strong>微信支付、支付宝</strong>等方式完成充值/付款。请在注册后于账单与充值页面确认最新支付渠道、费率与规则。
+            </p>
+          </details>
+          <details>
+            <summary>国内访问是否稳定？</summary>
+            <p>
+              聚合服务一般会针对<strong>国内网络环境</strong>做线路与节点优化，以获得更稳定的访问体验；实际表现仍可能受运营商、地域与高峰期影响，建议以控制台监控与自测为准。
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          © TokenX 注册链接：
+          <a href="https://laiai.ai/register?aff=jZop" rel="noopener noreferrer" target="_blank"
+            >laiai.ai/register?aff=jZop</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
